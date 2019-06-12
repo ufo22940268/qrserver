@@ -1,0 +1,21 @@
+{
+  "name": "qrserver",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "main": "nodemon ./server.js",
+    "main-debug": "nodemon --inspect-brk ./server.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "koa": "^2.7.0",
+    "koa-body": "^4.1.0",
+    "koa-router": "^7.4.0",
+    "mongoose": "^5.5.14",
+    "nodemon": "^1.19.1"
+  }
+}
