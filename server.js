@@ -50,5 +50,4 @@ router.get('/page/image/:id', async ctx => {
 
 app.use(mount('/image', KoaStatic(__dirname + "/uploads")));
 
-
 app.listen(3000);
