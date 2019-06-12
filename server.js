@@ -11,7 +11,7 @@ const KoaBody = require('koa-body');
 const render = require('koa-ejs');
 let app = new Koa();
 const cdn = require('./cdn');
-const path = require('path')
+const path = require('path');
 
 const router = Router();
 
@@ -26,6 +26,7 @@ render(app, {
 
 
 let upload = async ctx => {
+  console.log('upload');
   if (ctx.request.files) {
     let filePath = ctx.request.files[Object.keys(ctx.request.files)[0]].path
     let fileName = path.basename(filePath);
@@ -45,7 +46,7 @@ router.post('/upload', KoaBody(
 ), upload);
 
 router.get('/page/image/:id', async ctx => {
-  await ctx.render('image', {image: {url: cdn.composeImageUrl(ctx.params.id)}})
+  await ctx.render('image', {image: {url: cdn.composeImagePage(ctx.params.id)}})
 });
 
 app.use(mount('/image', KoaStatic(__dirname + "/uploads")));

@@ -10,6 +10,10 @@ function composeImageUrl(fileName) {
   return host +'/image/' + fileName
 }
 
+let composeImagePage = (fileName) => {
+  return `${host}/page/image/${fileName}`
+}
+
 let saveToDb = async (fileName) => {
   await db.file.create({name: fileName})
   return composeImageUrl(fileName)
@@ -17,4 +21,4 @@ let saveToDb = async (fileName) => {
 
 
 
-module.exports = {saveFile: saveToDb, composeImageUrl};
+module.exports = {saveFile: saveToDb, composeImageUrl, composeImagePage};
