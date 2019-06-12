@@ -16,7 +16,7 @@ let composeImagePage = (fileName) => {
 
 let saveToDb = async (fileName) => {
   await db.file.create({name: fileName})
-  return composeImageUrl(fileName)
+  return composeImagePage(fileName)
 };
 
 

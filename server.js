@@ -46,7 +46,7 @@ router.post('/upload', KoaBody(
 ), upload);
 
 router.get('/page/image/:id', async ctx => {
-  await ctx.render('image', {image: {url: cdn.composeImagePage(ctx.params.id)}})
+  await ctx.render('image', {image: {url: cdn.composeImageUrl(ctx.params.id)}})
 });
 
 app.use(mount('/image', KoaStatic(__dirname + "/uploads")));
