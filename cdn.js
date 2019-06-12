@@ -17,4 +17,4 @@ let saveToDb = async (fileName) => {
 
 
 
-module.exports = {saveFile: saveToDb};
+module.exports = {saveFile: saveToDb, composeImageUrl};
