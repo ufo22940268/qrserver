@@ -12,7 +12,7 @@ function composeImageUrl(fileName) {
 
 let composeImagePage = (fileName) => {
   return `${host}/page/image/${fileName}`
-}
+};
 
 let saveToDb = async (fileName) => {
   await db.file.create({name: fileName})

@@ -28,12 +28,16 @@ render(app, {
 let upload = async ctx => {
   console.log('upload');
   if (ctx.request.files) {
-    let filePath = ctx.request.files[Object.keys(ctx.request.files)[0]].path
+    let filePath = ctx.request.files[Object.keys(ctx.request.files)[0]].path;
     let fileName = path.basename(filePath);
     let url = await cdn.saveFile(fileName);
-    ctx.body = JSON.stringify({url: url})
+    ctx.body = {url, filePath}
   }
 };
+
+router.get('/test', ctx => {
+  ctx.body = "testaaaaaaa"
+});
 
 router.post('/upload', KoaBody(
   {
@@ -51,4 +55,6 @@ router.get('/page/image/:id', async ctx => {
 
 app.use(mount('/image', KoaStatic(__dirname + "/uploads")));
 
-app.listen(3000);
+if (!module.parent) app.listen(3000);
+
+module.exports = app
