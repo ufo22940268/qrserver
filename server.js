@@ -13,6 +13,7 @@ let app = new Koa();
 const cdn = require('./cdn');
 const path = require('path');
 const compose = require('koa-compose');
+const {composeImageUrl} = require('./config')
 
 const router = Router();
 
@@ -20,8 +21,8 @@ let combineRouters = (...routers) => {
   return compose(routers.map(r => r.routes()))
 };
 
+app.use(KoaBody())
 app.use(combineRouters(router, require('./router/recordRouter.js')));
-// app.use(router.routes());
 render(app, {
   root: path.join(__dirname, 'view'),
   layout: 'template',
@@ -56,7 +57,7 @@ router.post('/upload', KoaBody(
 ), upload);
 
 router.get('/page/image/:id', async ctx => {
-  await ctx.render('image', {image: {url: cdn.composeImageUrl(ctx.params.id)}})
+  await ctx.render('image', {image: {url: composeImageUrl(ctx.params.id)}})
 });
 
 app.use(mount('/image', KoaStatic(__dirname + "/uploads")));

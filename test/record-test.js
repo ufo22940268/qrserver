@@ -24,12 +24,11 @@ describe('record', function () {
     expect(body).to.have.property('filePath');
     fs.unlinkSync(body.filePath);
     
-    // let url = body.url;
-    // ({body} = await request.get('/record/add')
-    //   .query({url}));
-    // expect(body).to.have.property('to');
-    //
-    // expect(await db.redirection.count(), 1)
+    let url = body.url;
+    ({body} = await request.post('/record/add')
+      .send({url}));
+    expect(body).to.have.property('to');
+    expect(await db.redirection.countDocuments(), 1)
   });
 });
 
