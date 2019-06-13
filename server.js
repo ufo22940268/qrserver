@@ -12,10 +12,16 @@ const render = require('koa-ejs');
 let app = new Koa();
 const cdn = require('./cdn');
 const path = require('path');
+const compose = require('koa-compose');
 
 const router = Router();
 
-app.use(router.routes());
+let combineRouters = (...routers) => {
+  return compose(routers.map(r => r.routes()))
+};
+
+app.use(combineRouters(router, require('./router/recordRouter.js')));
+// app.use(router.routes());
 render(app, {
   root: path.join(__dirname, 'view'),
   layout: 'template',

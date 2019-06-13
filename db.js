@@ -13,7 +13,14 @@ mongoose.connect(`mongodb://localhost:27017/${dbName}`, {useNewUrlParser: true})
 let fileSchema = new Schema({name: String}, {timestamps: true});
 const file = mongoose.model('file', fileSchema);
 
+let redirectionSchema = new Schema({
+  from: String,
+  to: String
+}, {timestamps: true});
+const redirection = mongoose.model('redirection', redirectionSchema);
+
 module.exports = {
   file,
+  redirection,
   mongoose
 };
