@@ -14,9 +14,10 @@ let fileSchema = new Schema({name: String}, {timestamps: true});
 const file = mongoose.model('file', fileSchema);
 
 let redirectionSchema = new Schema({
-  from: String,
+  from: {type: String, unique: true},
 }, {timestamps: true});
-redirectionSchema.virtual("to").get(() => {
+
+redirectionSchema.virtual("to").get(function() {
   return `${host}/redirect/${this._id}`
 });
 

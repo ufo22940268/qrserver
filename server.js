@@ -21,8 +21,8 @@ let combineRouters = (...routers) => {
   return compose(routers.map(r => r.routes()))
 };
 
-app.use(KoaBody())
-app.use(combineRouters(router, require('./router/recordRouter.js')));
+app.use(KoaBody());
+app.use(combineRouters(router, require('./router/redirectionRouter')));
 render(app, {
   root: path.join(__dirname, 'view'),
   layout: 'template',

@@ -25,10 +25,18 @@ describe('record', function () {
     fs.unlinkSync(body.filePath);
     
     let url = body.url;
-    ({body} = await request.post('/record/add')
+    ({body} = await request.post('/redirection/add')
       .send({url}));
-    expect(body).to.have.property('to');
+    expect(body).to.have.property('to')
+      .and.not.contains("undefined");
     expect(await db.redirection.countDocuments(), 1)
+  });
+  
+  it('should reuse redirection', async () => {
+    let o = await db.redirection.create({from: 'kk'});
+    let {body} = await request.post('/redirection/add')
+      .send({url: 'kk'});
+    expect(body).to.have.property('to').and.to.contains(o._id.toString())
   });
 });
 
