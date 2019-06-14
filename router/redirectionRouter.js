@@ -14,4 +14,15 @@ router.post('/redirection/add', async (ctx) => {
   ctx.body = {to: r.to}
 });
 
+router.get('/redirection/:id', async (ctx) => {
+  
+  let redirection = await db.redirection.findById(ctx.params.id).exec();
+  if (!redirection) {
+    throw new Error('id not found')
+  }
+  
+  await db.log.create({redirection: ctx.params.id});
+  ctx.redirect(redirection.to)
+});
+
 module.exports = router;

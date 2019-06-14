@@ -10,13 +10,13 @@ const expect = require('chai').expect;
 const fs = require('fs');
 const db = require('../db')
 
-describe('record', function () {
+describe('Redirection router', function () {
   
   beforeEach(async () => {
     await db.mongoose.connection.dropDatabase()
   });
   
-  it('should record image page is visited', async () => {
+  it('should create redirection ', async () => {
     let body;
     ({body} = await request.post('/upload')
       .attach('file', `${__dirname}/fixture/01_Cuppy_smile.png`));
@@ -29,7 +29,7 @@ describe('record', function () {
       .send({url}));
     expect(body).to.have.property('to')
       .and.not.contains("undefined");
-    expect(await db.redirection.countDocuments(), 1)
+    expect(await db.redirection.countDocuments(), 1);
   });
   
   it('should reuse redirection', async () => {
@@ -37,6 +37,6 @@ describe('record', function () {
     let {body} = await request.post('/redirection/add')
       .send({url: 'kk'});
     expect(body).to.have.property('to').and.to.contains(o._id.toString())
-  });
+ });
 });
 

@@ -16,15 +16,22 @@ const file = mongoose.model('file', fileSchema);
 let redirectionSchema = new Schema({
   from: {type: String, unique: true},
 }, {timestamps: true});
-
 redirectionSchema.virtual("to").get(function() {
   return `${host}/redirect/${this._id}`
 });
-
 const redirection = mongoose.model('redirection', redirectionSchema);
+
+let logSchema = new Schema({
+  redirection: {
+    type: Schema.Types.ObjectId, ref: 'redirection'
+  },
+}, {timestamps: true});
+const log = mongoose.model('log', logSchema)
+
 
 module.exports = {
   file,
   redirection,
+  log,
   mongoose
 };
