@@ -20,6 +20,11 @@ describe('Log router', function () {
     let r = await db.redirection.create({url: 'kk'});
     await request.get(`/redirection/${r.id}`).expect(302);
     expect(await db.log.count()).to.equals(1);
+  
+    let body;
+    ({body} = await request.get(`/redirection/summary/${r.id}`));
+    expect(body).to.have.property('summary')
+      .and.to.have.length.above(0)
   });
 });
 

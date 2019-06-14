@@ -37,6 +37,6 @@ describe('Redirection router', function () {
     let {body} = await request.post('/redirection/add')
       .send({url: 'kk'});
     expect(body).to.have.property('to').and.to.contains(o._id.toString())
- });
+  });
 });
 

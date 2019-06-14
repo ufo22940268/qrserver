@@ -23,8 +23,9 @@ const redirection = mongoose.model('redirection', redirectionSchema);
 
 let logSchema = new Schema({
   redirection: {
-    type: Schema.Types.ObjectId, ref: 'redirection'
+    type: Schema.Types.ObjectId, ref: 'redirection',
   },
+  create: {type: Date, expires: '15d', default: Date.now}
 }, {timestamps: true});
 const log = mongoose.model('log', logSchema)
 
