@@ -43,7 +43,7 @@ let upload = async ctx => {
 };
 
 router.get('/test', ctx => {
-  ctx.body = "testaaaaaaa"
+  ctx.body = {a: 'jjjjj'}
 });
 
 router.post('/upload', KoaBody(

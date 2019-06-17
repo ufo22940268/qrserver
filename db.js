@@ -17,7 +17,7 @@ let redirectionSchema = new Schema({
   from: {type: String, unique: true},
 }, {timestamps: true});
 redirectionSchema.virtual("to").get(function() {
-  return `${host}/redirect/${this._id}`
+  return `${host}/redirection/${this._id}`
 });
 const redirection = mongoose.model('redirection', redirectionSchema);
 

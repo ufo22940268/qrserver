@@ -35,7 +35,7 @@ router.get('/redirection/:id', async (ctx) => {
   }
   
   await db.log.create({redirection: ctx.params.id});
-  ctx.redirect(redirection.to)
+  ctx.redirect(redirection.from)
 });
 
 

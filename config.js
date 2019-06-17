@@ -3,7 +3,7 @@
  */
 "use strict";
 
-const host = String.raw`http://127.0.0.1:3000`
+const host = String.raw`http://192.168.31.77:3000`
 
 function composeImageUrl(fileName) {
   return host +'/image/' + fileName
