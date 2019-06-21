@@ -28,7 +28,6 @@ router.get('/redirection/summary/:id', async (ctx) => {
 });
 
 router.get('/redirection/:id', async (ctx) => {
-  
   let redirection = await db.redirection.findById(ctx.params.id).exec();
   if (!redirection) {
     throw new Error('id not found')

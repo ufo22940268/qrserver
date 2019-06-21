@@ -4,13 +4,13 @@
 "use strict";
 
 const db = require('./db');
-const {composeImagePage} = require('./config')
+const {composePage} = require('./config')
 
-let saveToDb = async (fileName) => {
+let saveFile = async (fileName) => {
   await db.file.create({name: fileName})
-  return composeImagePage(fileName)
+  return composePage(fileName)
 };
 
 
 
-module.exports = {saveFile: saveToDb};
+module.exports = {saveFile: saveFile};

@@ -22,14 +22,14 @@ describe('Redirection router', function () {
       .attach('file', `${__dirname}/fixture/01_Cuppy_smile.png`));
     expect(body).to.have.property('url');
     expect(body).to.have.property('filePath');
-    fs.unlinkSync(body.filePath);
+    // fs.unlinkSync(body.filePath);
     
     let url = body.url;
     ({body} = await request.post('/redirection/add')
       .send({url}));
     expect(body).to.have.property('to')
       .and.not.contains("undefined");
-    expect(await db.redirection.countDocuments(), 1);
+    expect(await db.redirection.count(), 1);
   });
   
   it('should reuse redirection', async () => {
@@ -37,6 +37,7 @@ describe('Redirection router', function () {
     let {body} = await request.post('/redirection/add')
       .send({url: 'kk'});
     expect(body).to.have.property('to').and.to.contains(o._id.toString())
+    expect(await db.log.count()).to.equals(0)
   });
 });
 

@@ -13,7 +13,8 @@ let app = new Koa();
 const cdn = require('./cdn');
 const path = require('path');
 const compose = require('koa-compose');
-const {composeImageUrl} = require('./config')
+const range = require('koa-range');
+const fs = require('fs');
 
 const router = Router();
 
@@ -21,8 +22,6 @@ let combineRouters = (...routers) => {
   return compose(routers.map(r => r.routes()))
 };
 
-app.use(KoaBody());
-app.use(combineRouters(router, require('./router/redirectionRouter')));
 render(app, {
   root: path.join(__dirname, 'view'),
   layout: 'template',
@@ -30,6 +29,11 @@ render(app, {
   cache: false,
   debug: false
 });
+app.use(KoaBody());
+app.use(range)
+app.use(combineRouters(router,
+  require('./router/redirectionRouter'),
+  require('./router/pageRouter')));
 
 
 let upload = async ctx => {
@@ -51,17 +55,37 @@ router.post('/upload', KoaBody(
     multipart: true,
     formLimit: "2mb",
     formidable: {
-      uploadDir: __dirname + '/uploads'
+      uploadDir: __dirname + '/uploads',
     }
   }
 ), upload);
 
-router.get('/page/image/:id', async ctx => {
-  await ctx.render('image', {image: {url: composeImageUrl(ctx.params.id)}})
+router.post('/upload/video', KoaBody(
+  {
+    multipart: true,
+    formLimit: "7mb",
+    formidable: {
+      uploadDir: __dirname + '/uploads',
+      onFileBegin: function (name, file) {
+        let folder = path.dirname(file.path);
+        let fileName = path.basename(file.path);
+        fileName = fileName.replace(/^upload/, "video")
+        file.path = path.join(folder, fileName);
+      }
+    }
+  }
+), upload);
+
+router.get('/stream/:file', async ctx => {
+  const filePath = `${__dirname}/uploads/${ctx.params.file}`;
+  ctx.length = fs.statSync(filePath).size
+  ctx.type = 'video/mp4';
+  ctx.body = fs.createReadStream(filePath)
 });
 
-app.use(mount('/image', KoaStatic(__dirname + "/uploads")));
+
+app.use(mount('/static', KoaStatic(__dirname + "/uploads")));
 
 if (!module.parent) app.listen(3000);
 
-module.exports = app
+module.exports = app;
